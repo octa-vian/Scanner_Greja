@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/custom_dark_gray</item>
+        <item name="android:background">#ffffff</item>
+    </style>
+</resources>

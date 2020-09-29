@@ -1,0 +1,3 @@
+include ':thermalbluetoothprinter'
+include ':app'
+rootProject.name = "ScannerAPKgreja"

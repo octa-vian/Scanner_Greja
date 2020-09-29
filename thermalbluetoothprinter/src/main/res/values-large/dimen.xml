@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding5">7.5dp</dimen>
+    <dimen name="popup_height">600dp</dimen>
+    <dimen name="popup_width">375dp</dimen>
+</resources>
