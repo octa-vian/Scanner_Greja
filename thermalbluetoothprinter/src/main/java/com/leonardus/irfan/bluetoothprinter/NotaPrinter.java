@@ -98,10 +98,9 @@ public class NotaPrinter extends BluetoothPrinter {
             outputStream.write(PrintFormatter.DEFAULT_STYLE);
             outputStream.write(PrintFormatter.NEW_LINE);
 
-            outputStream.write("\n".getBytes());
             outputStream.write(PrintFormatter.ALIGN_LEFT);
-            outputStream.write(String.format("Nama :  %s\n", transaksi.getOutlet()).getBytes());
-            outputStream.write(String.format("%s\n", transaksi.getTgl_hari()+transaksi.getSales()).getBytes());
+            outputStream.write(String.format("Nama   : %s\n", transaksi.getOutlet()).getBytes());
+            outputStream.write(String.format("%s\n", transaksi.getTgl_hari()+", "+transaksi.getSales()).getBytes());
             //outputStream.write(String.format("Jam:  %s\n", transaksi.getSales()).getBytes());
 
             outputStream.write(PrintFormatter.NEW_LINE);
