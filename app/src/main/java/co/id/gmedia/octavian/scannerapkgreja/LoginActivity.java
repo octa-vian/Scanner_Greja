@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.util.JsonReader;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -21,18 +24,20 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText edt_username, edt_pass;
     Button btn_login;
+    private boolean password_visible = false;
+    private ImageView img_visible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_new);
 
-        edt_username = findViewById(R.id.edt_username);
-        edt_pass = findViewById(R.id.edt_pass);
+        edt_username = findViewById(R.id.txt_username);
+        edt_pass = findViewById(R.id.txt_password);
         btn_login = findViewById(R.id.btn_login);
 
         if(AppSharedPreferences.isLoggedIn(this)){
-            startActivity(new Intent(this, ActivityScanner.class));
+            startActivity(new Intent(this, ActivityListJadwal.class));
             finish();
         }
 
@@ -40,6 +45,23 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 useLogin();
+            }
+        });
+
+        img_visible = findViewById(R.id.img_visible);
+        findViewById(R.id.img_visible).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                password_visible = !password_visible;
+                if(password_visible){
+                    img_visible.setImageDrawable(getResources().getDrawable(R.drawable.matabuka));
+                    edt_pass.setInputType(InputType.TYPE_CLASS_TEXT);
+                }
+                else{
+                    img_visible.setImageDrawable(getResources().getDrawable(R.drawable.matatutup));
+                    edt_pass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    edt_pass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
             }
         });
 
@@ -70,8 +92,8 @@ public class LoginActivity extends AppCompatActivity {
                         String token = ob.getJSONObject("response").getString("token");
                         String exp = ob.getJSONObject("response").getString("expired_at");
                         String nama = ob.getJSONObject("response").getString("nama");
-                        AppSharedPreferences.Login(LoginActivity.this, Id, token );
-                        Intent intent = new Intent(LoginActivity.this, ActivityScanner.class);
+                        AppSharedPreferences.Login(LoginActivity.this, Id, token, nama );
+                        Intent intent = new Intent(LoginActivity.this, ActivityListJadwal.class);
                         startActivity(intent);
                         finish();
 

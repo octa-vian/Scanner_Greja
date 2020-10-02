@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -31,12 +32,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.ResultPoint;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.journeyapps.barcodescanner.DefaultDecoderFactory;
+import com.journeyapps.barcodescanner.camera.CenterCropStrategy;
 import com.leonardus.irfan.bluetoothprinter.BluetoothPrinter;
 import com.leonardus.irfan.bluetoothprinter.Model.Transaksi;
 import com.leonardus.irfan.bluetoothprinter.NotaPrinter;
@@ -48,6 +51,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import co.id.gmedia.octavian.scannerapkgreja.model.ModelList;
 import co.id.gmedia.octavian.scannerapkgreja.model.ModelScann;
 import co.id.gmedia.octavian.scannerapkgreja.util.APIvolley;
 import co.id.gmedia.octavian.scannerapkgreja.util.AppSharedPreferences;
@@ -71,7 +75,8 @@ public class ActivityScanner extends AppCompatActivity {
     private String Id ="";
     private Activity cotext;
     private ImageView btn_exit;
-    private String id_qr ="", nama = "", tanggal = "", jam = "", kursi ="", tempat="", denah="";
+    private String id_qr ="", nama = "", tanggal = "", jam = "", kursi ="", tempat="", denah="", namaIbdh="";
+    private ModelList item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +88,11 @@ public class ActivityScanner extends AppCompatActivity {
         Nprinter = new NotaPrinter(cotext);
         btn_exit = findViewById(R.id.exit);
        //Nprinter.startService();
+
+        if(getIntent().hasExtra(Server.EXTRA_ID)){
+            Gson gson = new Gson();
+            item = gson.fromJson(getIntent().getStringExtra(Server.EXTRA_ID), ModelList.class);
+        }
 
         btn_exit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,11 +167,14 @@ public class ActivityScanner extends AppCompatActivity {
         }
     }
 
-    private Bitmap createBitmapFromView() {
+    private Bitmap createBitmapFromView(String kursi) {
         TextView tv = new TextView(activity);
-        tv.setText("Hello Android !!");
-        tv.setTextColor(Color.WHITE);
-        tv.setBackgroundColor(Color.GRAY);
+        tv.setText(kursi);
+        tv.setTextColor(Color.BLACK);
+        tv.setGravity(Gravity.CENTER);
+        tv.setTypeface(null, Typeface.BOLD);
+        tv.setTextSize(60);
+        tv.setBackgroundColor(Color.WHITE);
         int spec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         tv.measure(spec, spec);
         tv.layout(0, 0, tv.getMeasuredWidth(), tv.getMeasuredHeight());
@@ -181,6 +194,7 @@ public class ActivityScanner extends AppCompatActivity {
         try {
 
             object.put("nobukti",Qr);
+            object.put("id_jadwal",item.getItem1());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -204,6 +218,7 @@ public class ActivityScanner extends AppCompatActivity {
                         kursi = ob.getJSONObject("response").getString("kursi");
                         tempat = ob.getJSONObject("response").getString("tempat");
                         denah = ob.getJSONObject("response").getString("denah");
+                        namaIbdh = ob.getJSONObject("response").getString("nama_ibadah");
 
                         playBeep(true);
                         Display display = getWindowManager().getDefaultDisplay();
@@ -228,7 +243,7 @@ public class ActivityScanner extends AppCompatActivity {
                         }
                         dialog.setCancelable(false);
 
-                        TextView txt_Id, txt_nama, txt_tgl, txt_jam, txt_kursi, txt_tempat;
+                        TextView txt_Id, txt_nama, txt_tgl, txt_jam, txt_kursi, txt_tempat, txt_namaIbdh;
                         Button btn_ok;
                         ImageView img_back;
 
@@ -240,6 +255,7 @@ public class ActivityScanner extends AppCompatActivity {
                         txt_jam = dialog.findViewById(R.id.txt_jam);
                         txt_kursi = dialog.findViewById(R.id.txt_kursi);
                         txt_tempat = dialog.findViewById(R.id.txt_tempat);
+                        txt_namaIbdh = dialog.findViewById(R.id.nama_ibadah);
                         img_back = dialog.findViewById(R.id.img_back);
 
                         txt_Id.setText(id_qr);
@@ -248,6 +264,7 @@ public class ActivityScanner extends AppCompatActivity {
                         txt_tgl.setText(tanggal);
                         txt_kursi.setText(kursi);
                         txt_tempat.setText(denah);
+                        txt_namaIbdh.setText(namaIbdh);
 
                         img_back.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -270,8 +287,9 @@ public class ActivityScanner extends AppCompatActivity {
                                 Nprinter.setListener(new BluetoothPrinter.BluetoothListener() {
                                     @Override
                                     public void onBluetoothConnected() {
-                                        Transaksi modelScann = new Transaksi(nama, jam, kursi, id_qr, tanggal, denah);
+                                        Transaksi modelScann = new Transaksi(nama, jam, kursi, id_qr, tanggal, denah, createBitmapFromView(kursi), namaIbdh);
                                         Nprinter.print(modelScann);
+
 
                                     }
 

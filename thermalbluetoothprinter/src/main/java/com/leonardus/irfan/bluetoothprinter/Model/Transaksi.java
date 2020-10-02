@@ -1,5 +1,7 @@
 package com.leonardus.irfan.bluetoothprinter.Model;
 
+import android.graphics.Bitmap;
+
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +16,8 @@ public class Transaksi {
     private Date jatuh_tempo;
     private double tunai;
     private double diskon;
+    private Bitmap icon;
+    private String nama_Ibadah;
     private List<Item> listItem;
 
     private double dibayar;
@@ -34,6 +38,17 @@ public class Transaksi {
         this.Id_note = id_note;
         this.tgl_hari = tgl;
         this.tempat = tempat;
+    }
+
+    public Transaksi(String outlet, String sales, String no_nota, String id_note, String tgl, String tempat, Bitmap icon, String nama_Ibadah){
+        this.outlet = outlet;
+        this.sales = sales;
+        this.no_nota = no_nota;
+        this.Id_note = id_note;
+        this.tgl_hari = tgl;
+        this.tempat = tempat;
+        this.icon = icon;
+        this.nama_Ibadah = nama_Ibadah;
     }
 
     public Transaksi(String outlet, String sales, String no_nota, Date tgl_transaksi, List<Item> listItem){
@@ -90,5 +105,21 @@ public class Transaksi {
     }
     public String getTempat() {
         return tempat;
+    }
+
+    public Bitmap getIcon() {
+        return icon;
+    }
+
+    public void setIcon(Bitmap icon) {
+        this.icon = icon;
+    }
+
+    public String getNama_Ibadah() {
+        return nama_Ibadah;
+    }
+
+    public void setNama_Ibadah(String nama_Ibadah) {
+        this.nama_Ibadah = nama_Ibadah;
     }
 }

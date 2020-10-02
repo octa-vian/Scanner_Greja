@@ -57,6 +57,7 @@ public class NotaPrinter extends BluetoothPrinter {
 
     // this will send text data to be printed by the bluetooth printer
     public void print(Transaksi transaksi){
+        header = PrintFormatter.decodeBitmap(transaksi.getIcon());
         final int NAMA_MAX = 15;
         final int JUMLAH_MAX = 4;
         final int HARGA_TOTAL_MAX = 11;
@@ -78,34 +79,34 @@ public class NotaPrinter extends BluetoothPrinter {
             outputStream.write(PrintFormatter.DEFAULT_STYLE);
             outputStream.write(PrintFormatter.ALIGN_CENTER);
 
-            if(header != null){
-                outputStream.write(header);
-                outputStream.write(PrintFormatter.NEW_LINE);
-            }
-
-            outputStream.write("\n".getBytes());
             outputStream.write("\n".getBytes());
             outputStream.write("      GBI ROCK BANJARMASIN      \n".getBytes());
             outputStream.write("--------------------------------\n".getBytes());
-            outputStream.write(PrintFormatter.NEW_LINE);
             //outputStream.write(String.format("ID       :  %s\n", transaksi.getId_note()).getBytes());
             outputStream.write(PrintFormatter.ALIGN_CENTER);
 
             outputStream.write(bb2);
-            outputStream.write(String.format("%s\n", transaksi.getNo_nota()).getBytes());
-            outputStream.write(String.format("%s\n", transaksi.getTempat()).getBytes());
+            //outputStream.write(String.format("%s\n", transaksi.getNo_nota()).getBytes());
+            if(header != null){
+                outputStream.write(header);
+                outputStream.write(String.format(transaksi.getTempat()).getBytes());
+                //outputStream.write(PrintFormatter.NEW_LINE);
+            }
 
+            outputStream.write(PrintFormatter.NEW_LINE);
             outputStream.write(PrintFormatter.DEFAULT_STYLE);
             outputStream.write(PrintFormatter.NEW_LINE);
 
             outputStream.write(PrintFormatter.ALIGN_LEFT);
-            outputStream.write(String.format("Nama   : %s\n", transaksi.getOutlet()).getBytes());
+            outputStream.write(String.format("Nama        : %s\n", transaksi.getOutlet()).getBytes());
+            outputStream.write(String.format("Nama Ibadah : %s\n", transaksi.getNama_Ibadah()).getBytes());
             outputStream.write(String.format("%s\n", transaksi.getTgl_hari()+", "+transaksi.getSales()).getBytes());
             //outputStream.write(String.format("Jam:  %s\n", transaksi.getSales()).getBytes());
 
             outputStream.write(PrintFormatter.NEW_LINE);
             //PROSES CETAK TRANSAKSI
             outputStream.write("---------*Terima Kasih*---------\n".getBytes());
+            outputStream.write("----*Tuhan Yesus Memberkati*----\n".getBytes());
             outputStream.write("\n".getBytes());
             outputStream.write("\n".getBytes());
             outputStream.write("\n".getBytes());

@@ -5,36 +5,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bgloginnew"
+    android:background="@drawable/bgscan"
     tools:context=".LoginActivity">
 
     <ImageView
         android:id="@+id/img_logo"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="70dp"
         android:src="@drawable/logo"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
         android:layout_marginLeft="10dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"/>
+
+
+    <ImageView
+        android:id="@+id/img_logo1"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:visibility="gone"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="118dp"
+        android:layout_marginRight="4dp"
+        android:src="@drawable/tanganbgscan" />
+
+    <LinearLayout
+        android:id="@+id/ln_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+    </LinearLayout>
 
 
     <LinearLayout
         android:id="@+id/ln_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_below="@id/ln_txt"
+        android:layout_marginTop="26dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/rubik_medium"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="Scan dan Cetak"
             android:textColor="@color/white"
-            android:text="UserName"
-            android:layout_marginBottom="4dp"/>
+            android:textSize="28sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Username"
+            android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/edt_username"
@@ -43,8 +77,8 @@
             android:drawableLeft="@drawable/user"
             android:drawablePadding="6dp"
             android:layout_height="45dp"
-            android:paddingLeft="10dp"
-            android:layout_marginBottom="15dp"
+            android:paddingStart="10dp"
+            android:layout_marginBottom="4dp"
             android:hint=""/>
 
         <TextView
@@ -66,7 +100,7 @@
             android:background="@drawable/border_chat_edt"
             android:layout_width="match_parent"
             android:drawableStart="@drawable/password"
-            android:paddingLeft="12dp"
+            android:paddingStart="10dp"
             android:inputType="textPassword"
             android:drawablePadding="8dp"
             android:layout_height="45dp"
@@ -81,14 +115,15 @@
         android:id="@+id/btn_login"
         android:layout_width="180dp"
         android:layout_height="45dp"
+        android:layout_below="@id/ln_btn"
         android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/btn_login"
         android:text="Login"
         android:textColor="@color/white"
         android:gravity="center"
-        android:layout_alignParentBottom="true"
         android:layout_marginBottom="30dp"/>
 
 </RelativeLayout>
