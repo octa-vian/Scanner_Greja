@@ -173,17 +173,27 @@ public class ActivityScanner extends AppCompatActivity {
         tv.setTextColor(Color.BLACK);
         tv.setGravity(Gravity.CENTER);
         tv.setTypeface(null, Typeface.BOLD);
-        tv.setTextSize(60);
+        tv.setTextSize(45);
         tv.setBackgroundColor(Color.WHITE);
         int spec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+
+        /*Bitmap b = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length)
+        profileImage.setImageBitmap(Bitmap.createScaledBitmap(b, 120, 120, false));*/
+
         tv.measure(spec, spec);
         tv.layout(0, 0, tv.getMeasuredWidth(), tv.getMeasuredHeight());
         Bitmap b = Bitmap.createBitmap(tv.getMeasuredWidth(), tv.getMeasuredHeight(),
                 Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
-        c.translate((-tv.getScrollX()), (-tv.getScrollY()));
+        //c.translate((-tv.getScrollX()), (-tv.getScrollY()));
+        int h = Integer.parseInt(String.valueOf(tv.getMeasuredHeight()));
+        int w = Integer.parseInt(String.valueOf(tv.getMeasuredWidth()));
+        double hs = (double) h/w;
+        double sh = (double) hs*w;
         tv.draw(c);
-        return b;
+        tv.getTextScaleX();
+        return Bitmap.createScaledBitmap(b, (int) sh, h, false);
+
     }
 
 

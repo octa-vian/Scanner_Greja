@@ -85,7 +85,7 @@ public class NotaPrinter extends BluetoothPrinter {
             //outputStream.write(String.format("ID       :  %s\n", transaksi.getId_note()).getBytes());
             outputStream.write(PrintFormatter.ALIGN_CENTER);
 
-            outputStream.write(bb2);
+            outputStream.write(cc);
             //outputStream.write(String.format("%s\n", transaksi.getNo_nota()).getBytes());
             if(header != null){
                 outputStream.write(header);

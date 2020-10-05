@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ public class ActivityListJadwal extends AppCompatActivity {
     private List<ModelList> listItem = new ArrayList<>();
     private AdapterListJadwal adapterListJadwal;
     private ImageView btn_logout, img_profile;
+    private static EditText old_pass, new_pass, re_pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +58,41 @@ public class ActivityListJadwal extends AppCompatActivity {
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                 TextView tv_nama;
-                Button btn_logout;
+                Button btn_logout, btn_ch_pass;
 
                 btn_logout = dialog.findViewById(R.id.btn_logout);
+                btn_ch_pass = dialog.findViewById(R.id.btn_ChangePass);
                 tv_nama = dialog.findViewById(R.id.txt_nama);
                 tv_nama.setText(AppSharedPreferences.getNama(ActivityListJadwal.this));
+
+                btn_ch_pass.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final Dialog dialog = new Dialog(ActivityListJadwal.this);
+                        dialog.setContentView(R.layout.popup_ganti_pass);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        ImageView img_exit;
+                        img_exit = dialog.findViewById(R.id.exit);
+                        old_pass = dialog.findViewById(R.id.txt_pass_lama);
+                        new_pass = dialog.findViewById(R.id.txt_pass);
+                        re_pass = dialog.findViewById(R.id.txt_ulang_pass);
+
+                        img_exit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        dialog.findViewById(R.id.btn_simpan).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                initChangePass();
+                            }
+                        });
+                        dialog.show();
+                    }
+                });
 
                 btn_logout.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -126,6 +158,48 @@ public class ActivityListJadwal extends AppCompatActivity {
             @Override
             public void onError(String result) {
                 Toast.makeText(ActivityListJadwal.this, "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void initChangePass() {
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("oldpassword", old_pass.getText().toString());
+            object.put("newpassword", new_pass.getText().toString());
+            object.put("retype_newpassword", re_pass.getText().toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        new APIvolley(ActivityListJadwal.this, object, "POST", Server.URL_CHANGE_PASS, new APIvolley.VolleyCallback() {
+            @Override
+            public void onSuccess(String result) {
+                try {
+                    JSONObject response = new JSONObject(result);
+                    String message = response.getJSONObject("metadata").getString("message");
+                    String status = response.getJSONObject("metadata").getString("status");
+
+                    if(status.equals("200")){
+                        Toast.makeText(ActivityListJadwal.this, message, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ActivityListJadwal.this, ActivityListJadwal.class);
+                        startActivity(intent);
+                        ActivityListJadwal.this.finish();
+                    }
+                    else {
+                        Toast.makeText(ActivityListJadwal.this,message, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(String result) {
+                Toast.makeText(ActivityListJadwal.this,"Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
             }
         });
 
