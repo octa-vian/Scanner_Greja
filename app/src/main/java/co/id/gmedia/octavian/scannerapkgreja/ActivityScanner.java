@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -64,6 +65,7 @@ public class ActivityScanner extends AppCompatActivity {
 
     private AudioManager audioManager;
     private static Context activity;
+    public BluetoothPrinter bluetoothDevice;
     private int max_volume = 100;
     private int current_volume = 0;
     private Printer printerManager;
@@ -87,12 +89,14 @@ public class ActivityScanner extends AppCompatActivity {
         activity = this;
         Nprinter = new NotaPrinter(cotext);
         btn_exit = findViewById(R.id.exit);
-       //Nprinter.startService();
+        Nprinter.StartPermission();
 
         if(getIntent().hasExtra(Server.EXTRA_ID)){
             Gson gson = new Gson();
             item = gson.fromJson(getIntent().getStringExtra(Server.EXTRA_ID), ModelList.class);
         }
+
+
 
         btn_exit.setOnClickListener(new View.OnClickListener() {
             @Override

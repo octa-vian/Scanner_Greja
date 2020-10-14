@@ -92,14 +92,51 @@ public class BluetoothPrinter {
         this.context = context;
     }
 
+    public void  StartPermission(){
+        //Inisialisasi UI
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Bluetooth tidak menyala");
+        builder.setMessage("Bluetooth anda tidak menyala. Nyalakan bluetooth sekarang?");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Meminta user menyalakan bluetooth
+                Intent intentOpenBluetoothSettings = new Intent();
+                intentOpenBluetoothSettings.setAction(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS);
+                BluetoothPrinter.this.context.startActivity(intentOpenBluetoothSettings);
+            }
+        });
+        builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        dialogBluetooth = builder.create();
+
+        //Inisialisasi Bluetooth
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if(bluetoothAdapter == null) {
+            Toast.makeText(context, "Adapter Bluetooth tidak tersedia", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(!bluetoothAdapter.isEnabled()) {
+            dialogBluetooth.show();
+            return;
+        }
+       // showDevices();
+
+    }
+
     public void startService(){
-        if (ActivityCompat.checkSelfPermission(context,
+       /* if (ActivityCompat.checkSelfPermission(context,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(context,
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             askPermission();
             return;
-        }
+        }*/
 
         //Inisialisasi UI
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

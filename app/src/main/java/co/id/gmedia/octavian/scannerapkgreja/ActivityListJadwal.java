@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -16,6 +17,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.leonardus.irfan.bluetoothprinter.BluetoothPrinter;
+import com.leonardus.irfan.bluetoothprinter.NotaPrinter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,8 +36,10 @@ import co.id.gmedia.octavian.scannerapkgreja.util.Server;
 public class ActivityListJadwal extends AppCompatActivity {
 
     private List<ModelList> listItem = new ArrayList<>();
+    public BluetoothPrinter bluetoothDevice;
     private AdapterListJadwal adapterListJadwal;
     private ImageView btn_logout, img_profile;
+    private NotaPrinter Nprinter;
     private static EditText old_pass, new_pass, re_pass;
 
     @Override
@@ -43,6 +49,8 @@ public class ActivityListJadwal extends AppCompatActivity {
 
         btn_logout = findViewById(R.id.logout);
         img_profile = findViewById(R.id.profile);
+        Nprinter = new NotaPrinter(this);
+        Nprinter.StartPermission();
 
         RecyclerView rcView = findViewById(R.id.rv_list_jadwal);
         rcView.setItemAnimator(new DefaultItemAnimator());
