@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import java.util.List;
 import co.id.gmedia.octavian.scannerapkgreja.model.ModelList;
 import co.id.gmedia.octavian.scannerapkgreja.util.APIvolley;
 import co.id.gmedia.octavian.scannerapkgreja.util.AppSharedPreferences;
+import co.id.gmedia.octavian.scannerapkgreja.util.LoadMoreScrollListener;
 import co.id.gmedia.octavian.scannerapkgreja.util.Server;
 
 public class ActivityListJadwal extends AppCompatActivity {
@@ -40,7 +42,9 @@ public class ActivityListJadwal extends AppCompatActivity {
     private AdapterListJadwal adapterListJadwal;
     private ImageView btn_logout, img_profile;
     private NotaPrinter Nprinter;
+    private ProgressBar loading;
     private static EditText old_pass, new_pass, re_pass;
+    private LoadMoreScrollListener loadMoreScrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,7 @@ public class ActivityListJadwal extends AppCompatActivity {
 
         btn_logout = findViewById(R.id.logout);
         img_profile = findViewById(R.id.profile);
+        loading = findViewById(R.id.loading);
         Nprinter = new NotaPrinter(this);
         Nprinter.StartPermission();
 
@@ -57,6 +62,14 @@ public class ActivityListJadwal extends AppCompatActivity {
         rcView.setLayoutManager(new LinearLayoutManager(ActivityListJadwal.this, LinearLayoutManager.VERTICAL, false));
         adapterListJadwal = new AdapterListJadwal(ActivityListJadwal.this, listItem);
         rcView.setAdapter(adapterListJadwal);
+
+        loadMoreScrollListener = new LoadMoreScrollListener() {
+            @Override
+            public void onLoadMore() {
+                getData(false);
+            }
+        };
+        rcView.addOnScrollListener(loadMoreScrollListener);
 
         img_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,13 +130,17 @@ public class ActivityListJadwal extends AppCompatActivity {
             }
         });
 
-        getData();
+        getData(true);
     }
 
-    private void getData() {
+    private void getData(final boolean init) {
+        loading.setVisibility(View.VISIBLE);
+        if (init){
+            loadMoreScrollListener.initLoad();
+        }
         JSONObject object = new JSONObject();
         try {
-            object.put("start",0);
+            object.put("start",loadMoreScrollListener.getLoaded());
             object.put("limit",10);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -132,9 +149,12 @@ public class ActivityListJadwal extends AppCompatActivity {
         new APIvolley(ActivityListJadwal.this, object, "POST", Server.URL_LIST_JADWAL, new APIvolley.VolleyCallback() {
             @Override
             public void onSuccess(String result) {
+                loading.setVisibility(View.GONE);
 
-                listItem.clear();
                 try {
+                    if (init){
+                        listItem.clear();
+                    }
                     JSONObject ob = new JSONObject(result);
                     String message = ob.getJSONObject("metadata").getString("message");
                     String status = ob.getJSONObject("metadata").getString("status");
@@ -153,11 +173,14 @@ public class ActivityListJadwal extends AppCompatActivity {
                                     ,object1.getString("nama_ibadah")
                             ));
                         }
+                        loadMoreScrollListener.finishLoad(jsonArray.length());
+                        adapterListJadwal.notifyDataSetChanged();
                     } else {
                         Toast.makeText(ActivityListJadwal.this, message, Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
+                    loadMoreScrollListener.finishLoad(0);
                     e.printStackTrace();
                 }
                 adapterListJadwal.notifyDataSetChanged();
@@ -165,6 +188,9 @@ public class ActivityListJadwal extends AppCompatActivity {
 
             @Override
             public void onError(String result) {
+                loadMoreScrollListener.finishLoad(0);
+                adapterListJadwal.notifyDataSetChanged();
+                listItem.clear();
                 Toast.makeText(ActivityListJadwal.this, "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
             }
         });

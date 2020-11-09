@@ -12,11 +12,15 @@
         android:roundIcon="@mipmap/ic_logoapp2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityListJadwal"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity
+            android:name=".MainActivityHome"
+            android:label="@string/title_activity_main_home"></activity>
+        <activity
+            android:name=".ActivityListJadwal"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".ActivityScanner"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".MainActivity" />
         <activity
             android:name=".LoginActivity"
