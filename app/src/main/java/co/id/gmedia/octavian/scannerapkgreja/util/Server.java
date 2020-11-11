@@ -13,7 +13,9 @@ public class Server {
     private final static String BASE_URL = "http://gmedia.bz/gereja/api/";
     public final static String URL_LOGIN = BASE_URL + "auth/login_scanner";
     public final static String URL_SCAN = BASE_URL + "ticket/scan";
+    public final static String URL_SCAN_EVENT = BASE_URL + "ticket/scan_event";
     public final static String URL_LIST_JADWAL = BASE_URL + "jadwal/list_jadwal_scanner";
+    public final static String URL_LIST_EVENT = BASE_URL + "jadwal/list_jadwal_event_scanner";
     public final static String URL_CHANGE_PASS = BASE_URL + "auth/change_password_scanner";
 
 

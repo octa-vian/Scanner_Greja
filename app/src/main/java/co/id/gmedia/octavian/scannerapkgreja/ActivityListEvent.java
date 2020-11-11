@@ -1,12 +1,6 @@
 package co.id.gmedia.octavian.scannerapkgreja;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Dialog;
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,6 +12,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.leonardus.irfan.bluetoothprinter.BluetoothPrinter;
 import com.leonardus.irfan.bluetoothprinter.NotaPrinter;
@@ -35,7 +34,7 @@ import co.id.gmedia.octavian.scannerapkgreja.util.AppSharedPreferences;
 import co.id.gmedia.octavian.scannerapkgreja.util.LoadMoreScrollListener;
 import co.id.gmedia.octavian.scannerapkgreja.util.Server;
 
-public class ActivityListJadwal extends AppCompatActivity {
+public class ActivityListEvent extends AppCompatActivity {
 
     private List<ModelList> listItem = new ArrayList<>();
     public BluetoothPrinter bluetoothDevice;
@@ -43,7 +42,6 @@ public class ActivityListJadwal extends AppCompatActivity {
     private ImageView btn_logout, img_profile, img_wtm;
     private NotaPrinter Nprinter;
     private ProgressBar loading;
-    private Button btn_ibadah, btn_event;
     private static EditText old_pass, new_pass, re_pass;
     private LoadMoreScrollListener loadMoreScrollListener;
 
@@ -56,15 +54,13 @@ public class ActivityListJadwal extends AppCompatActivity {
         img_profile = findViewById(R.id.profile);
         img_wtm = findViewById(R.id.wtf);
         loading = findViewById(R.id.loading);
-        btn_ibadah = findViewById(R.id.btn_ibadah);
-        btn_event = findViewById(R.id.btn_event);
         Nprinter = new NotaPrinter(this);
         Nprinter.StartPermission();
 
         RecyclerView rcView = findViewById(R.id.rv_list_jadwal);
         rcView.setItemAnimator(new DefaultItemAnimator());
-        rcView.setLayoutManager(new LinearLayoutManager(ActivityListJadwal.this, LinearLayoutManager.VERTICAL, false));
-        adapterListJadwal = new AdapterListJadwal(ActivityListJadwal.this, listItem);
+        rcView.setLayoutManager(new LinearLayoutManager(ActivityListEvent.this, LinearLayoutManager.VERTICAL, false));
+        adapterListJadwal = new AdapterListJadwal(ActivityListEvent.this, listItem);
         rcView.setAdapter(adapterListJadwal);
 
         loadMoreScrollListener = new LoadMoreScrollListener() {
@@ -78,7 +74,7 @@ public class ActivityListJadwal extends AppCompatActivity {
         img_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialog dialog = new Dialog(ActivityListJadwal.this);
+                Dialog dialog = new Dialog(ActivityListEvent.this);
                 dialog.setContentView(R.layout.pop_up_profile);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -88,12 +84,12 @@ public class ActivityListJadwal extends AppCompatActivity {
                 btn_logout = dialog.findViewById(R.id.btn_logout);
                 btn_ch_pass = dialog.findViewById(R.id.btn_ChangePass);
                 tv_nama = dialog.findViewById(R.id.txt_nama);
-                tv_nama.setText(AppSharedPreferences.getNama(ActivityListJadwal.this));
+                tv_nama.setText(AppSharedPreferences.getNama(ActivityListEvent.this));
 
                 btn_ch_pass.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        final Dialog dialog = new Dialog(ActivityListJadwal.this);
+                        final Dialog dialog = new Dialog(ActivityListEvent.this);
                         dialog.setContentView(R.layout.popup_ganti_pass);
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         ImageView img_exit;
@@ -122,8 +118,8 @@ public class ActivityListJadwal extends AppCompatActivity {
                 btn_logout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        AppSharedPreferences.Logout(ActivityListJadwal.this);
-                        Intent intent = new Intent(ActivityListJadwal.this, LoginActivity.class);
+                        AppSharedPreferences.Logout(ActivityListEvent.this);
+                        Intent intent = new Intent(ActivityListEvent.this, LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         finish();
@@ -131,22 +127,6 @@ public class ActivityListJadwal extends AppCompatActivity {
                 });
 
                 dialog.show();
-            }
-        });
-
-        btn_ibadah.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ActivityListJadwal.this, ActivityListJadwal.class);
-                startActivity(intent);
-            }
-        });
-
-        btn_event.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ActivityListJadwal.this, ActivityListEvent.class);
-                startActivity(intent);
             }
         });
 
@@ -166,7 +146,7 @@ public class ActivityListJadwal extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        new APIvolley(ActivityListJadwal.this, object, "POST", Server.URL_LIST_JADWAL, new APIvolley.VolleyCallback() {
+        new APIvolley(ActivityListEvent.this, object, "POST", Server.URL_LIST_JADWAL, new APIvolley.VolleyCallback() {
             @Override
             public void onSuccess(String result) {
                 loading.setVisibility(View.GONE);
@@ -196,7 +176,7 @@ public class ActivityListJadwal extends AppCompatActivity {
                         adapterListJadwal.notifyDataSetChanged();
                     } else {
                         img_wtm.setVisibility(View.VISIBLE);
-                        Toast.makeText(ActivityListJadwal.this, message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityListEvent.this, message, Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
@@ -212,7 +192,7 @@ public class ActivityListJadwal extends AppCompatActivity {
                 adapterListJadwal.notifyDataSetChanged();
                 img_wtm.setVisibility(View.VISIBLE);
                 listItem.clear();
-                Toast.makeText(ActivityListJadwal.this, "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityListEvent.this, "Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -230,7 +210,7 @@ public class ActivityListJadwal extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        new APIvolley(ActivityListJadwal.this, object, "POST", Server.URL_CHANGE_PASS, new APIvolley.VolleyCallback() {
+        new APIvolley(ActivityListEvent.this, object, "POST", Server.URL_CHANGE_PASS, new APIvolley.VolleyCallback() {
             @Override
             public void onSuccess(String result) {
                 try {
@@ -239,13 +219,13 @@ public class ActivityListJadwal extends AppCompatActivity {
                     String status = response.getJSONObject("metadata").getString("status");
 
                     if(status.equals("200")){
-                        Toast.makeText(ActivityListJadwal.this, message, Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(ActivityListJadwal.this, ActivityListJadwal.class);
+                        Toast.makeText(ActivityListEvent.this, message, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ActivityListEvent.this, ActivityListEvent.class);
                         startActivity(intent);
-                        ActivityListJadwal.this.finish();
+                        ActivityListEvent.this.finish();
                     }
                     else {
-                        Toast.makeText(ActivityListJadwal.this,message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityListEvent.this,message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -254,7 +234,7 @@ public class ActivityListJadwal extends AppCompatActivity {
 
             @Override
             public void onError(String result) {
-                Toast.makeText(ActivityListJadwal.this,"Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityListEvent.this,"Kesalahan Jaringan", Toast.LENGTH_SHORT).show();
             }
         });
 

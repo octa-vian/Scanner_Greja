@@ -10,14 +10,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import co.id.gmedia.octavian.scannerapkgreja.model.ModelList;
 import co.id.gmedia.octavian.scannerapkgreja.scanner.ActivityScanner;
+import co.id.gmedia.octavian.scannerapkgreja.scanner.ActivityScannerEvent;
 import co.id.gmedia.octavian.scannerapkgreja.util.Server;
 
 /*import com.google.gson.Gson;
@@ -29,12 +32,12 @@ import co.id.gmedia.octavian.kartikaapps.model.ModelProduk;
 import co.id.gmedia.octavian.kartikaapps.util.Constant;*/
 
 
-public class AdapterListJadwal extends RecyclerView.Adapter<AdapterListJadwal.TemplateViewHolder> {
+public class AdapterListEvent extends RecyclerView.Adapter<AdapterListEvent.TemplateViewHolder> {
 
     private Activity activity;
     private List<ModelList> listItem;
 
-    public AdapterListJadwal(Activity activity, List<ModelList> listItem){
+    public AdapterListEvent(Activity activity, List<ModelList> listItem){
         this.activity = activity;
         this.listItem = listItem ;
     }
@@ -43,7 +46,7 @@ public class AdapterListJadwal extends RecyclerView.Adapter<AdapterListJadwal.Te
     @Override
     public TemplateViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         return new TemplateViewHolder(LayoutInflater.from(activity).
-                inflate(R.layout.adapter_list_jadwal, viewGroup, false));
+                inflate(R.layout.adapter_event, viewGroup, false));
     }
 
     @Override
@@ -51,9 +54,11 @@ public class AdapterListJadwal extends RecyclerView.Adapter<AdapterListJadwal.Te
         final ModelList item = listItem.get(i);
         final int final_position = i;
 
-        templateViewHolder.txt_nama.setText(item.getItem7());
+        Picasso.get().load(item.getItem8()).into(templateViewHolder.iv_cardview);
+        templateViewHolder.txt_tempat.setText(item.getItem4());
         templateViewHolder.txt_tanggal.setText(item.getItem2());
         templateViewHolder.txt_jam.setText(item.getItem3());
+        templateViewHolder.txt_judul.setText(item.getItem7());
 
       /*  final ModelProduk itemSelected = listItem.get(i);
         if(itemSelected.getItem5().toLowerCase().trim().equals("Terbayar")  || itemSelected.getItem5().toLowerCase().trim().equals("terbayar")){
@@ -72,13 +77,12 @@ public class AdapterListJadwal extends RecyclerView.Adapter<AdapterListJadwal.Te
         }*/
 
          final Gson gson = new Gson();
-            templateViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+            templateViewHolder.cs_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(activity, ActivityScanner.class);
+                Intent i = new Intent(activity, ActivityScannerEvent.class);
                 i.putExtra(Server.EXTRA_ID, gson.toJson(item));
                 activity.startActivity(i);
-
             }
         });
 
@@ -95,16 +99,19 @@ public class AdapterListJadwal extends RecyclerView.Adapter<AdapterListJadwal.Te
 
 
         private ImageView iv_cardview;
-        private TextView txt_nama, txt_jam, txt_tanggal;
+        private TextView txt_tempat, txt_jam, txt_tanggal, txt_judul;
         private CardView cardView;
+        private ConstraintLayout cs_btn;
 
         public TemplateViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            txt_nama = (TextView) itemView.findViewById(R.id.txt_nama);
-            txt_jam = (TextView) itemView.findViewById(R.id.txt_jam);
-            txt_tanggal = (TextView) itemView.findViewById(R.id.txt_tanggal);
-            cardView = (CardView) itemView.findViewById(R.id.cr_view);
+            txt_tempat = (TextView) itemView.findViewById(R.id.txt_tempat);
+            txt_jam = (TextView) itemView.findViewById(R.id.txt_waktu);
+            txt_tanggal = (TextView) itemView.findViewById(R.id.txt_tgl);
+            cs_btn = (ConstraintLayout) itemView.findViewById(R.id.cs_btn);
+            iv_cardview = (ImageView) itemView.findViewById(R.id.imageView2);
+            txt_judul = (TextView) itemView.findViewById(R.id.txt_judul);
 
 
         }

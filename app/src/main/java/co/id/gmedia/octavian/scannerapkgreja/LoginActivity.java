@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         btn_login = findViewById(R.id.btn_login);
 
         if(AppSharedPreferences.isLoggedIn(this)){
-            startActivity(new Intent(this, ActivityListJadwal.class));
+            startActivity(new Intent(this, MainActivityHome.class));
             finish();
         }
 
@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                         String exp = ob.getJSONObject("response").getString("expired_at");
                         String nama = ob.getJSONObject("response").getString("nama");
                         AppSharedPreferences.Login(LoginActivity.this, Id, token, nama );
-                        Intent intent = new Intent(LoginActivity.this, ActivityListJadwal.class);
+                        Intent intent = new Intent(LoginActivity.this, MainActivityHome.class);
                         startActivity(intent);
                         finish();
 

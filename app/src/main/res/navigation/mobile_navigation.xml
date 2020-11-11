@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="co.id.gmedia.octavian.scannerapkgreja.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:name="co.id.gmedia.octavian.scannerapkgreja.fragment.FragmentJadwal"
+        android:label="ibadah"
+        tools:layout="@layout/fragment_jadwal" />
 
-    <fragment
+   <!--<fragment
         android:id="@+id/navigation_dashboard"
         android:name="co.id.gmedia.octavian.scannerapkgreja.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="co.id.gmedia.octavian.scannerapkgreja.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_dashboard" />-->
+    <!--
+        <fragment
+            android:id="@+id/navigation_notifications"
+            android:name="co.id.gmedia.octavian.scannerapkgreja.ui.notifications.NotificationsFragment"
+            android:label="@string/title_notifications"
+            tools:layout="@layout/fragment_notifications" />-->
 </navigation>

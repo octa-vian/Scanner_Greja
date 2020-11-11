@@ -1,7 +1,7 @@
 package co.id.gmedia.octavian.scannerapkgreja.model;
 
 public class ModelList {
-    private String item1, item2, item3, item4, item5, item6, item7;
+    private String item1, item2, item3, item4, item5, item6, item7, item8;
 
     public ModelList(String item1, String item2, String item3, String item4, String item5, String item6, String item7) {
         this.item1 = item1;
@@ -11,6 +11,18 @@ public class ModelList {
         this.item5 = item5;
         this.item6 = item6;
         this.item7 = item7;
+
+    }
+
+    public ModelList(String item1, String item2, String item3, String item4, String item5, String item6, String item7, String item8) {
+        this.item1 = item1;
+        this.item2 = item2;
+        this.item3 = item3;
+        this.item4 = item4;
+        this.item5 = item5;
+        this.item6 = item6;
+        this.item7 = item7;
+        this.item8 = item8;
     }
 
     public String getItem6() {
@@ -67,5 +79,13 @@ public class ModelList {
 
     public void setItem7(String item7) {
         this.item7 = item7;
+    }
+
+    public String getItem8() {
+        return item8;
+    }
+
+    public void setItem8(String item8) {
+        this.item8 = item8;
     }
 }

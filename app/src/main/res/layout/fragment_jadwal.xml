@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityListJadwal">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.FragmentJadwal">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -30,6 +30,8 @@
             app:layout_constraintStart_toStartOf="@+id/gd_kanan_vertikal1"
             app:layout_constraintTop_toTopOf="parent" />
 
+
+
         <!--<TextView
             android:id="@+id/textView"
             android:layout_width="0dp"
@@ -52,7 +54,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/gd_atas_horisontal2">
-
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -68,14 +69,14 @@
             android:id="@+id/wtf"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:src="@drawable/belumadajadwal"
             app:layout_constraintBottom_toTopOf="@+id/gd_bawah_horisontal"
             app:layout_constraintEnd_toStartOf="@+id/gd_kanan_vertikal"
             app:layout_constraintStart_toStartOf="@+id/gd_kiri_vertikal"
             app:layout_constraintTop_toTopOf="@+id/gd_bawah_horisontal1"/>
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="horizontal"
@@ -120,7 +121,7 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_gravity="center"
-                   android:background="@drawable/border_switch_event"/>
+                    android:background="@drawable/border_switch_event"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -133,7 +134,48 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+        </LinearLayout>-->
+
+        <ImageView
+            android:id="@+id/img_search"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_search"
+            app:layout_constraintBottom_toTopOf="@+id/gd_bawah_horisontal4"
+            app:layout_constraintEnd_toStartOf="@+id/gd_kanan_vertikal"
+            app:layout_constraintStart_toStartOf="@+id/gd_kanan_vertikal1"
+            app:layout_constraintTop_toTopOf="@id/gd_atas_horisontal3" />
+
+        <EditText
+            android:id="@+id/edt_search"
+            android:layout_width="300dp"
+            android:layout_height="42dp"
+            android:background="@drawable/border_chat_edt"
+            android:hint="Cari Event apa?"
+            android:paddingLeft="@dimen/dp15"
+            android:visibility="visible"
+            android:imeOptions="actionSearch"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@+id/gd_atas_horisontal3"
+            app:layout_constraintEnd_toStartOf="@+id/gd_kanan_vertikal"
+            app:layout_constraintStart_toStartOf="@+id/gd_kiri_vertikal"
+            app:layout_constraintTop_toBottomOf="@+id/gd_bawah_horisontal1" />
+
+        <!--<EditText
+            android:id="@+id/edt_search"
+            android:layout_width="300dp"
+            android:layout_height="42dp"
+            android:background="@drawable/border_chat_edt"
+            android:hint="Cari Event apa?"
+            android:paddingLeft="@dimen/dp15"
+            android:visibility="gone"
+            android:imeOptions="actionSearch"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@+id/gd_bawah_horisontal1"
+            app:layout_constraintEnd_toStartOf="@+id/gd_kanan_vertikal"
+            app:layout_constraintStart_toStartOf="@+id/gd_kiri_vertikal"
+            app:layout_constraintTop_toBottomOf="@+id/gd_bawah_horisontal1" />-->
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gd_atas_horisontal2"
@@ -165,6 +207,13 @@
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gd_bawah_horisontal1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.18" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gd_bawah_horisontal4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -207,6 +256,5 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:layout_centerInParent="true"/>
-
 
 </RelativeLayout>

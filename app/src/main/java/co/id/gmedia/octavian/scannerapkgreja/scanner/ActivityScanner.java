@@ -1,4 +1,4 @@
-package co.id.gmedia.octavian.scannerapkgreja;
+package co.id.gmedia.octavian.scannerapkgreja.scanner;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,12 +8,10 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -40,7 +38,6 @@ import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.journeyapps.barcodescanner.DefaultDecoderFactory;
-import com.journeyapps.barcodescanner.camera.CenterCropStrategy;
 import com.leonardus.irfan.bluetoothprinter.BluetoothPrinter;
 import com.leonardus.irfan.bluetoothprinter.Model.Transaksi;
 import com.leonardus.irfan.bluetoothprinter.NotaPrinter;
@@ -52,8 +49,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import co.id.gmedia.octavian.scannerapkgreja.LoginActivity;
+import co.id.gmedia.octavian.scannerapkgreja.R;
 import co.id.gmedia.octavian.scannerapkgreja.model.ModelList;
-import co.id.gmedia.octavian.scannerapkgreja.model.ModelScann;
 import co.id.gmedia.octavian.scannerapkgreja.util.APIvolley;
 import co.id.gmedia.octavian.scannerapkgreja.util.AppSharedPreferences;
 import co.id.gmedia.octavian.scannerapkgreja.util.Printer;
@@ -218,7 +216,6 @@ public class ActivityScanner extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 try {
-
                     JSONObject ob = new JSONObject(result);
                     String message = ob.getJSONObject("metadata").getString("message");
                     String status = ob.getJSONObject("metadata").getString("status");
